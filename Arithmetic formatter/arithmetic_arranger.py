@@ -1,4 +1,4 @@
-def arithmetic_arranger(numlist, args = True):
+def arithmetic_arranger(numlist, *args):
     
     #check n of problems
     if len(numlist) > 5:
@@ -48,12 +48,18 @@ def arithmetic_arranger(numlist, args = True):
     for k in range(len(firstoper)):
         if operators[k] == '+':
             z = int(firstoper[k]) + int(secoper[k])
-            results.append('  ' + str(z))
+            p = str(z)
+            if len(p) == 4:
+                results.append(' '+ p)
+            else:
+                results.append('  ' + str(z))
         else:
             z = int(firstoper[k]) - int(secoper[k])
-            results.append('  ' + str(z))
-    
-    #print(results)
+            p = str(z)
+            if p[0] == '-' or len(p) == 4:
+                results.append(' '+ p)
+            else: 
+                results.append('  ' + p)
 
     #get dashes
     for k in range(len(firstoper)):
@@ -91,7 +97,7 @@ def arithmetic_arranger(numlist, args = True):
     #display problems formatted
     arranged = str()
     
-    if args == True:
+    if args:
         arranged ='    '.join(firstline) + '\n' + '    '.join(secline) + '\n' + '    '.join(dashes) + '\n' + '    '.join(results)
     else:
         arranged ='    '.join(firstline) + '\n' + '    '.join(secline) + '\n' + '    '.join(dashes)

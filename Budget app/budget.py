@@ -18,12 +18,13 @@ class Category:
             self.ledger.append({'amount': float(amount), 'description': description})
 
     def withdraw(self, amount, description =' '):
-        self.balance -= amount
-        if self.balance < 0:
-            return False
-        else:
+        status = self.check_funds(amount)
+        if status == True:    
+            self.balance -= amount
             self.ledger.append({'amount': float(-amount), 'description': description})
             return True
+        else:
+            return False
 
     def get_balance(self):
         return self.balance

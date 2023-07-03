@@ -5,6 +5,13 @@ class Category:
         self.balance = 0.0
         pass
 
+    def __repr__(self):
+        title = self.category.center(30,'*')
+        ledger = list()
+        for line in self.ledger:
+            
+        pass
+
     def check_funds(self, amount):
         if amount > self.balance:
             return False
@@ -38,7 +45,6 @@ class Category:
             return True
         else:
             return False
-    
     
         
 

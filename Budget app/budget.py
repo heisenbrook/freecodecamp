@@ -1,15 +1,30 @@
 def create_spend_chart(cat_list):
+    tot_s = list()
+    for cat in cat_list:
+        spent = 0
+        for item in cat.ledger:
+            spent += abs(item['amount'])
+        tot_s.append(spent)
+
+    print(tot_s)
+
+
     chart = list()
     chart.insert(0, 'Percentage spent by category')
-    i = int()
     percentage = 100
-    for i in range(1,23):
-        if i % 2 == 0:
-            chart.insert(i, f"{str(percentage):>4}" + '|') 
-            percentage -= 10
-        else:
-            chart.insert(i,' ')
+    for i in range(1,12):
+        chart.insert(i, f"{str(percentage):>4}" + '|') 
+        percentage -= 10
+    dashes = '     -'
+    v_cat = str()
+    for cat in cat_list:
+        dashes += '---'
+    for l in str(cat.category):
+        v_cat += l +'\n'
     print(*chart, sep='\n')
+    print(dashes)
+
+        
 
 
 
@@ -17,7 +32,7 @@ def create_spend_chart(cat_list):
 
         
 
-    return None
+    return 
 
 
 

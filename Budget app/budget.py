@@ -1,4 +1,22 @@
 def create_spend_chart(cat_list):
+    chart = list()
+    chart.insert(0, 'Percentage spent by category')
+    i = int()
+    percentage = 100
+    for i in range(1,23):
+        if i % 2 == 0:
+            chart.insert(i, f"{str(percentage):>4}" + '|') 
+            percentage -= 10
+        else:
+            chart.insert(i,' ')
+    print(*chart, sep='\n')
+
+
+
+
+
+        
+
     return None
 
 

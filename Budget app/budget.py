@@ -3,36 +3,37 @@ def create_spend_chart(cat_list):
     for cat in cat_list:
         spent = 0
         for item in cat.ledger:
-            spent += abs(item['amount'])
+            if item['amount'] < 0:
+                spent += abs(item['amount'])
         tot_s.append(spent)
-
-    print(tot_s)
-
-
+    
+    #getting percentage
+    percent_cat = list()
+    for cat in tot_s:
+        percent_cat.append(round(int((cat*100)//(sum(tot_s))),-1))
+    
+    #printing chart
     chart = list()
-    chart.insert(0, 'Percentage spent by category')
+    chart.insert(0,'Percentage spent by category')
     percentage = 100
     for i in range(1,12):
         chart.insert(i, f"{str(percentage):>4}" + '|') 
+        for percent in percent_cat:
+            if percent >= percentage:
+                chart[i] += ' o '
         percentage -= 10
     dashes = '     -'
-    v_cat = str()
+    footer = list()
     for cat in cat_list:
         dashes += '---'
-    for l in str(cat.category):
-        v_cat += l +'\n'
-    print(*chart, sep='\n')
-    print(dashes)
+        foot = str()
+        for l in range(len(str(cat.category))):
+            foot += ' '+f'{str(cat.category)[l]}'+' '
+        footer += '\n'.join(foot) 
 
-        
+    graph = '\n'.join(chart) + '\n' + dashes + '    '.join(footer)  
 
-
-
-
-
-        
-
-    return 
+    return graph
 
 
 
@@ -59,10 +60,10 @@ class Category:
 
 
     def withdraw(self, amount, description =' '):
-        self.balance -= amount
         status = self.check_funds(amount)
         if status == True:    
             self.ledger.append({"amount": -amount, "description": description})
+            self.balance -= amount
             return True
         else:
             return False
@@ -79,11 +80,10 @@ class Category:
             return False
     
     def check_funds(self, amount):
-        if amount > self.balance:
-            return False
-        else:
+        if self.balance >= amount:
             return True
-        
+        else:
+            return False
 
 
 

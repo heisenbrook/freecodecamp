@@ -23,15 +23,16 @@ def create_spend_chart(cat_list):
                 chart[i] += ' o '
         percentage -= 10
     dashes = '     -'
-    footer = list()
+    footer = str()
     for cat in cat_list:
         dashes += '---'
         foot = str()
         for l in range(len(str(cat.category))):
-            foot += ' '+f'{str(cat.category)[l]}'+' '
-        footer += '\n'.join(foot) 
+            foot +=f'{str(cat.category)[l]}'
+        footer += f"{foot}\n"
+    print(footer)
 
-    graph = '\n'.join(chart) + '\n' + dashes + '    '.join(footer)  
+    graph = '\n'.join(chart) + '\n' + dashes +'\n' + '\n'.join(footer)  
 
     return graph
 

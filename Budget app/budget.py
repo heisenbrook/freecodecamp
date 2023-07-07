@@ -17,22 +17,34 @@ def create_spend_chart(cat_list):
     chart.insert(0,'Percentage spent by category')
     percentage = 100
     for i in range(1,12):
-        chart.insert(i, f"{str(percentage):>4}" + '|') 
+        chart.insert(i, f"{str(percentage):>3}" + '|') 
         for percent in percent_cat:
             if percent >= percentage:
                 chart[i] += ' o '
         percentage -= 10
-    dashes = '     -'
-    footer = str()
+    dashes = '    -'
     for cat in cat_list:
         dashes += '---'
-        foot = str()
-        for l in range(len(str(cat.category))):
-            foot +=f'{str(cat.category)[l]}'
-        footer += f"{foot}\n"
-    print(footer)
 
-    graph = '\n'.join(chart) + '\n' + dashes +'\n' + '\n'.join(footer)  
+    footer = str()
+    i = 0
+    max_list = 0
+    for cat in cat_list:
+        if len(str(cat.category)) > max_list:
+            max_list = len(str(cat.category))
+
+    
+    for i in range(max_list):
+        foot ='    '
+        for cat in cat_list:
+            try: 
+                str(cat.category)[i]
+                foot += f" {cat.category[i]} "
+            except:
+                foot += '   '
+        footer += f"{foot}\n"
+
+    graph = '\n'.join(chart) + '\n' + dashes +'\n'+ footer
 
     return graph
 
@@ -50,17 +62,20 @@ class Category:
         ledger = str()
         for line in self.ledger:
             ledger += (f"{line['description'][0:23]:23}"+f"{line['amount']:>7.2f}") +'\n'
-        total = 'Total:' + str(self.balance)   
+        total = 'Total: ' + str(self.balance)   
         return title + '\n' + ledger + total
    
-    def deposit(self, amount, description =' '):
+    def deposit(self, amount, description =''):
         self.balance += amount
         status = self.check_funds(amount)
         if status == True:
             self.ledger.append({"amount": amount, "description": description})
+        if description == ' ':
+            self.ledger.append({"amount": amount, "description": ''})
 
 
-    def withdraw(self, amount, description =' '):
+
+    def withdraw(self, amount, description =''):
         status = self.check_funds(amount)
         if status == True:    
             self.ledger.append({"amount": -amount, "description": description})
@@ -73,7 +88,7 @@ class Category:
         return self.balance
     
     def transfer(self, amount, category_new):
-        if self.balance > 0:
+        if self.balance > 0 and amount < self.balance:
             self.withdraw(amount, 'Transfer to ' + category_new.category)
             category_new.deposit(amount, 'Transfer from ' + self.category)
             return True

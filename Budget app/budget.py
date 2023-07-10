@@ -14,21 +14,23 @@ def create_spend_chart(cat_list):
     
     
     #printing chart
-    chart = list()
-    chart.insert(0,'Percentage spent by category')
+    chart = str()
+    chart += ('Percentage spent by category'+'\n')
     percentage = 100
     for i in range(1,12):
-        chart.insert(i, f"{str(percentage):>3}" + '|') 
+        chart += ( f"{str(percentage):>3}" + '|') 
         for percent in percent_cat:
             if percent >= percentage:
-                chart[i] += ' o '
+                chart += ' o '
             else:
-                chart[i] += '   '
+                chart += '   '
+        chart +=' '+'\n'
         percentage -= 10
     dashes = '    -'
+    
     for cat in cat_list:
         dashes += '---'
-
+    dashes += '\n'
     
     max_list = 0
     for cat in cat_list:
@@ -44,9 +46,10 @@ def create_spend_chart(cat_list):
                 foot += f" {cat.category[i]} "
             except:
                 foot += '   '
-        footer += f"{foot}\n"
+        footer += f"{foot} \n"
+    footer = footer.rstrip('\n')
 
-    graph = '\n'.join(chart) + '\n' + dashes +'\n'+ footer
+    graph = chart + dashes + footer
 
     return graph
 
@@ -102,7 +105,6 @@ class Category:
             return True
         else:
             return False
-
 
 
 

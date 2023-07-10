@@ -10,7 +10,8 @@ def create_spend_chart(cat_list):
     #getting percentage
     percent_cat = list()
     for cat in tot_s:
-        percent_cat.append(round(int((cat*100)//(sum(tot_s))),-1))
+        percent_cat.append(round((cat)/(sum(tot_s))*100,2))
+    
     
     #printing chart
     chart = list()
@@ -21,19 +22,20 @@ def create_spend_chart(cat_list):
         for percent in percent_cat:
             if percent >= percentage:
                 chart[i] += ' o '
+            else:
+                chart[i] += '   '
         percentage -= 10
     dashes = '    -'
     for cat in cat_list:
         dashes += '---'
 
-    footer = str()
-    i = 0
+    
     max_list = 0
     for cat in cat_list:
         if len(str(cat.category)) > max_list:
             max_list = len(str(cat.category))
 
-    
+    footer = str()
     for i in range(max_list):
         foot ='    '
         for cat in cat_list:
@@ -100,7 +102,6 @@ class Category:
             return True
         else:
             return False
-
 
 
 

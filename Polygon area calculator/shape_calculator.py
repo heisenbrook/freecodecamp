@@ -6,16 +6,13 @@ class Rectangle:
         pass
 
     def __str__(self):
-        line = str()
-        if self.height <= 50 or self.width <= 50:
-            line += (f'Rectangle(width={self.width}, height={self.height}) \n')
-        return line
+        return f'Rectangle(width={self.width}, height={self.height})'
 
     def set_width(self, width):
-        self.width += width
+        self.width = width
     
     def set_height(self, height):
-        self.height += height
+        self.height = height
     
     def get_area(self):
         area = self.height * self.width
@@ -30,14 +27,14 @@ class Rectangle:
         return diagonal
     
     def get_picture(self):
-        i = 1
         line = str()
-        if self.height <= 50 or self.width <= 50:
+        if (self.height < 50) and (self.width < 50):
             for i in range(self.height):
                 line += ('*'*self.width) + '\n'
             return line
         else: 
-            return 'Too big for picture.'
+            line += 'Too big for picture.'
+            return line
         
     def get_amount_inside(self, shape):
         return self.get_area() // shape.get_area()
@@ -45,8 +42,12 @@ class Rectangle:
 
 
 class Square(Rectangle):
-    def __init__(self, width):
-        super().__init__(width)
-        self.height = width
-        self.width = width
+    def __init__(self, side):
+        super().__init__(side, side)
     
+    def set_side(self, side):
+        self.height = side
+        self.width = side
+    
+    def __str__(self):
+        return f'Square(side={self.width})'
